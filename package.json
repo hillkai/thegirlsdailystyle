@@ -1,0 +1,28 @@
+{
+  "name": "thegirlsdailystyle",
+  "version": "1.0.0",
+  "description": "A fashion and lifestyle blog",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hillkai/thegirlsdailystyle.git"
+  },
+  "keywords": [
+    "fashion",
+    "lifestyle",
+    "blog"
+  ],
+  "author": "Kaitlin Hill",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hillkai/thegirlsdailystyle/issues"
+  },
+  "homepage": "https://github.com/hillkai/thegirlsdailystyle#readme",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
