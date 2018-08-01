@@ -22,6 +22,24 @@ app.get('/aboutus', function(req, res){
     PageTitle: "ABOUT US"
   });
 });
+var Items = new Array(1);
+Items[0] = {ImagePath: "/photos/CBQL8179.jpg", ItemBrand: "Forever 21 cashmere sweater", ItemLink: "www.forever21.com", ItemLinkShown: "forever21.com" }
+app.get('/faveitems', function(req, res){
+  res.status(200).render('items',{
+    PageTitle: "FAVE ITEMS",
+    ItemsInfo: Items
+  });
+});
+/*
+var Blog = new Array(1);
+Blog[0] = {BlogTitle: "Best Blog", BlogText: "this is osme text", BlogPhoto: "/photos/AGQM7548.JPG"};
+console.log("Length: ", Blog.length);
+app.get('/blog', function(req, res){
+  res.status(200).render('blog', {
+    PageTitle: "BLOG",
+    BlogInfo: Blog
+  });
+});*/
 app.use(express.static('public'));
 app.get('*', function(req, res){
   res.status(404).render('404', {

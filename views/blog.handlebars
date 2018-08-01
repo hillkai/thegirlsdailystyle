@@ -1,23 +1,7 @@
 <main class="blog-container">
-  <h1 class="blog-title">Blog Title</h1>
-  <div class="blog-section-container">
-    <div class="blog-text-section">
-      <p>Lorem ipsum dolor sit amet, ei prima albucius mandamus qui, ea diam
-        legimus interpretaris sit. At est nihil libris iriure, pri alterum fuisset albucius et. Quo ex meis adipiscing,
-         wisi conceptam contentiones in cum. Ea quando oblique numquam vis, velit legendos vel ex, ferri nulla quaeque ea sea.
-         Ei vix nibh porro complectitur, commodo persecuti signiferumque qui cu.</p>
-    </div>
-    <img class="blog-text-img" src="photos/XZMV7893.jpg">
-    </div>
-    <div class="blog-section-container">
-      <div class="blog-text-section">
-        <p>Lorem ipsum dolor sit amet, ei prima albucius mandamus qui, ea diam
-          legimus interpretaris sit. At est nihil libris iriure, pri alterum fuisset albucius et. Quo ex meis adipiscing,
-           wisi conceptam contentiones in cum. Ea quando oblique numquam vis, velit legendos vel ex, ferri nulla quaeque ea sea.
-           Ei vix nibh porro complectitur, commodo persecuti signiferumque qui cu.</p>
-      </div>
-      <img class="blog-text-img" src="photos/XZMV7893.jpg">
-    </div>
+  {{#each BlogInfo}}
+    {{> blogpost this}}
+  {{/each}}
     <div class="all-comment-stuff">
       <div class="blog-comments">
         <div class="comment">
