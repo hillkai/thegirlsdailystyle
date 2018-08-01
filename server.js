@@ -7,14 +7,24 @@ app.set('view engine', 'handlebars');
 
 //this is a middleware function. It uses HTTP GET method. It returns whatever our fuction says to when a user wants to go to that specific place.
 //they are also known as routes
+var Home = new Array(1);
+Home[0] = {PrevBlogTitle: "ashrioewhiorh"}
 app.get('/', function(req, res){
   res.status(200).render('home', {
-    PageTitle: "HOME"
+    PageTitle: "HOME",
+    LatestBlogTitle: "BLodfshaoie",
+    LatestBlogDescription: "asjehfaphweiuorhfaweuio",
+    LatestBlogPic: "/photos/HBFV1696.jpg",
+    BlogButton: Home
   });
 });
 app.get('/home', function(req, res){
   res.status(200).render('home', {
-    PageTitle: "HOME"
+    PageTitle: "HOME",
+    LatestBlogTitle: "BLodfshaoie",
+    LatestBlogDescription: "asjehfaphweiuorhfaweuio",
+    LatestBlogPic: "/photos/HBFV1696.jpg",
+    BlogButton: Home
   });
 });
 app.get('/aboutus', function(req, res){
@@ -23,14 +33,23 @@ app.get('/aboutus', function(req, res){
   });
 });
 var Items = new Array(1);
-Items[0] = {ImagePath: "/photos/CBQL8179.jpg", ItemBrand: "Forever 21 cashmere sweater", ItemLink: "www.forever21.com", ItemLinkShown: "forever21.com" }
+Items[0] = {ImagePath: "/photos/AGQM7548.JPG", ItemBrand: "Forever 21 cashmere sweater", ItemLink: "www.forever21.com", ItemLinkShown: "forever21.com" }
 app.get('/faveitems', function(req, res){
   res.status(200).render('items',{
     PageTitle: "FAVE ITEMS",
     ItemsInfo: Items
   });
 });
-/*
+
+var NavBlog = new Array(1);
+NavBlog[0] = {NavBlogElePic: "photos/XZMV7893.jpg", BlogTitle: "Yayay", BlogDescription: "ashdfjhasieofnsjdhfjewh"};
+app.get('/navblog', function(req, res){
+  res.status(200).render('navblog', {
+    PageTitle: "ALL BLOG POSTS",
+    NavBlogInfo: NavBlog
+  });
+});
+
 var Blog = new Array(1);
 Blog[0] = {BlogTitle: "Best Blog", BlogText: "this is osme text", BlogPhoto: "/photos/AGQM7548.JPG"};
 console.log("Length: ", Blog.length);
@@ -39,7 +58,7 @@ app.get('/blog', function(req, res){
     PageTitle: "BLOG",
     BlogInfo: Blog
   });
-});*/
+});
 app.use(express.static('public'));
 app.get('*', function(req, res){
   res.status(404).render('404', {

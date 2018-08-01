@@ -1,18 +1,6 @@
 <main class="all-blog-elements-container">
   <h1 class="nav-blog-page-title">All Blog Posts</h1>
-  <article class="blog-element">
-    <img class="blog-element-picture" src="photos/XZMV7893.jpg">
-    <h3 class="blog-element-title">Blog Title</h3>
-    <p class="blog-element-description">Some ipsum lorem text so I can see what it would look like. It is so fun and interesting.</p>
-  </article>
-  <article class="blog-element">
-    <img class="blog-element-picture" src="photos/BLIK9384.jpg">
-    <h3 class="blog-element-title">Blog Title</h3>
-    <p class="blog-element-description">Some ipsum lorem text so I can see what it would look like. It is so fun and interesting.</p>
-  </article>
-  <article class="blog-element">
-    <img class="blog-element-picture" src="photos/AGQM7548.jpg">
-    <h3 class="blog-element-title">Blog Title</h3>
-    <p class="blog-element-description">Some ipsum lorem text so I can see what it would look like. It is so fun and interesting.</p>
-  </article>
+  {{#each NavBlogInfo}}
+    {{>navblogindiv this}}
+  {{/each}}
 </main>

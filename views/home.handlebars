@@ -16,22 +16,18 @@
   <div class="blog-section">
     <article class="latest-blog-section">
       <div class="latest-blog-words">
-        <h3 class="latest-blog-title">Latest Blog</h3>
+        <h3 class="latest-blog-title">{{LatestBlogTitle}}</h3>
         <div class="latest-blog-info">
-          <p>A brief description about the blog. It isn't too long. It is a little interesting thing you know? Yes, I know.
-          In in ultrices ante. Ut id urna a massa tempus pretium vitae eu quam.</p>
+          <p>{{LatestBlogDescription}}</p>
         </div>
       </div>
-      <img class="latest-blog-image" src="/photos/AGQM7548.jpg">
+      <img class="latest-blog-image" src="{{LatestBlogPic}}">
     </article>
     <div class="prev-blog-section">
       <h3 class="prev-blog-title">Check out our previous blogs:</h3>
-      <button class="prev-blog-button">Prev blog title</button>
-      <button class="prev-blog-button">Prev blog title 2</button>
-      <button class="prev-blog-button">Prev blog title 3</button>
-      <button class="prev-blog-button">Prev blog title 4</button>
-      <button class="prev-blog-button">Prev blog title 5</button>
-      <button class="prev-blog-button">Prev blog title 6</button>
+      {{#each BlogButton}}
+        {{>prevBlogButton this}}
+      {{/each}}
     </div>
   </div>
 </main>
