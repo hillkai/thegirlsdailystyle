@@ -5,24 +5,26 @@ var exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-//Read in Items Json file
-var data = fs.readFileSync('information/iteminformation.json');
-data = String(data);
-data = data.replace(/\r/g, "");
-//Put first word from file in array of strings to be added to Item object
-var stringToAddToObj = get_information(data, 0);
-var arrOfItemObjContent = [];
-arrOfItemObjContent.push(stringToAddToObj);
-//add the rest of the words to the array of strings
-for(var i=stringToAddToObj.length-1; i<data.length-1; i++){
-  if(data[i] == '\n'){
-    i++;
-    stringToAddToObj = get_information(data, i);
-    arrOfItemObjContent.push(stringToAddToObj);
-    i += stringToAddToObj.length-1;
+function getDataFromFileToStringArr(fileToBeRead){
+  //Read in Items Json file
+  var data = fs.readFileSync(fileToBeRead);
+  data = String(data);
+  data = data.replace(/\r/g, "");
+  //Put first word from file in array of strings to be added to Item object
+  var stringToAddToObj = get_information(data, 0);
+  var arrOfObjContent = [];
+  arrOfObjContent.push(stringToAddToObj);
+  //add the rest of the words to the array of strings
+  for(var i=stringToAddToObj.length-1; i<data.length-1; i++){
+    if(data[i] == '\n'){
+      i++;
+      stringToAddToObj = get_information(data, i);
+      arrOfObjContent.push(stringToAddToObj);
+      i += stringToAddToObj.length-1;
+    }
   }
+  return arrOfObjContent;
 }
-var itemObj = createItemObj(arrOfItemObjContent);
 function get_information(stringToParse, startPointInString){
   var stringToReturn = "";
   var counter = startPointInString;
@@ -36,8 +38,6 @@ function get_information(stringToParse, startPointInString){
 //of objects that will be used in my middleware function
 function createItemObj(arrOfItemObjContent){
   var itemObj = [];
-  var counter = 0;
-  counter2 = 0;
   for(var i=0; i<arrOfItemObjContent.length; i++){
     var singleItemObj = {ItemImagePath: "", ItemBrand: "", ItemLinkActual: "", ItemLinkShown: ""};
     singleItemObj.ItemImagePath = arrOfItemObjContent[i];
@@ -51,29 +51,48 @@ function createItemObj(arrOfItemObjContent){
   }
   return itemObj;
 }
-
+function createNavBlogObj(arrOfNavContent){
+  var navBlogObj = [];
+  for(var i=0; i<arrOfNavContent.length; i++){
+    var singleNavObj = {NavBlogImagePath: "", BlogTitle: "", BlogDescription: ""};
+    singleNavObj.NavBlogImagePath = arrOfNavContent[i];
+    i++;
+    singleNavObj.BlogTitle = arrOfNavContent[i];
+    i++;
+    singleNavObj.BlogDescription = arrOfNavContent[i];
+    navBlogObj.push(singleNavObj);
+  }
+  return navBlogObj;
+}
 //this is a middleware function. It uses HTTP GET method. It returns whatever our fuction says to when a user wants to go to that specific place.
 //they are also known as routes
-var Home = new Array(1);
-Home[0] = {PrevBlogTitle: "ashrioewhiorh"}
+HomeObj = [
+  {PrevBlogTitle: "Start of Freshman year"},
+  {PrevBlogTitle: "Winter Time"},
+  {PrevBlogTitle: "Disney Best Day"},
+  {PrevBlogTitle: "Beach Beach Beach"},
+  {PrevBlogTitle: "Hawaii Days"},
+  {PrevBlogTitle: "Good Nights"}
+];
 app.get('/', function(req, res){
   res.status(200).render('home', {
     PageTitle: "HOME",
-    LatestBlogTitle: "BLodfshaoie",
-    LatestBlogDescription: "asjehfaphweiuorhfaweuio",
-    LatestBlogPic: "/photos/HBFV1696.jpg",
-    BlogButton: Home
+    LatestBlogTitle: "The Best Summer Day",
+    LatestBlogDescription: "I love summertime. It can be so nic to go outside and feel the sun. It is the best. I love loe lovel love love it.",
+    LatestBlogPic: "/photos/BLIK9384.jpg",
+    BlogButton: HomeObj
   });
 });
 app.get('/home', function(req, res){
   res.status(200).render('home', {
     PageTitle: "HOME",
-    LatestBlogTitle: "BLodfshaoie",
-    LatestBlogDescription: "asjehfaphweiuorhfaweuio",
-    LatestBlogPic: "/photos/HBFV1696.jpg",
-    BlogButton: Home
+    LatestBlogTitle: "The Best Summer Day",
+    LatestBlogDescription: "I love summertime. It can be so nic to go outside and feel the sun. It is the best. I love loe lovel love love it.",
+    LatestBlogPic: "/photos/BLIK9384.jpg",
+    BlogButton: HomeObj
   });
 });
+
 app.get('/aboutus', function(req, res){
   res.status(200).render('aboutus', {
     PageTitle: "ABOUT US"
@@ -81,29 +100,31 @@ app.get('/aboutus', function(req, res){
 });
 
 app.get('/faveitems', function(req, res){
+  var arrOfItemObjContent = getDataFromFileToStringArr("information/iteminformation.json");
+  var itemObj = createItemObj(arrOfItemObjContent);
   res.status(200).render('items',{
     PageTitle: "FAVE ITEMS",
     ItemsInfo: itemObj
   });
 });
 
-var NavBlog = new Array(1);
-NavBlog[0] = {NavBlogElePic: "photos/XZMV7893.jpg", BlogTitle: "Yayay", BlogDescription: "ashdfjhasieofnsjdhfjewh"};
+
 app.get('/navblog', function(req, res){
+  var arrOfNavContent = getDataFromFileToStringArr("information/navblog.json");
+  var navBlogObj = createNavBlogObj(arrOfNavContent);
   res.status(200).render('navblog', {
     PageTitle: "ALL BLOG POSTS",
-    NavBlogInfo: NavBlog
+    NavBlogInfo: navBlogObj
   });
 });
 
-var Blog = new Array(1);
-Blog[0] = {BlogTitle: "Best Blog", BlogText: "this is osme text", BlogPhoto: "/photos/AGQM7548.JPG"};
 app.get('/blog', function(req, res){
   res.status(200).render('blog', {
     PageTitle: "BLOG",
-    BlogInfo: Blog
+  //  BlogInfo: //Blog
   });
 });
+
 app.use(express.static('public'));
 app.get('*', function(req, res){
   res.status(404).render('404', {

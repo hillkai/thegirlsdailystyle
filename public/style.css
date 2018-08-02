@@ -146,11 +146,11 @@ body{
 }
 .blog-element{
   display: inline-block;
+  vertical-align: top;
   margin-right: 20px;
-  border: 0px;
-  border-style: solid;
-  height: 400px;
+  height: 420px;
   width: 300px;
+  margin-top: 25px;
   text-align: center;
   background-color: #f2e1f0;
   box-shadow: 2px 2px 20px rgba(212, 215, 219);
@@ -168,8 +168,7 @@ body{
   text-align: center;
   margin-top: 0px;
   margin-bottom: 5px;
-  margin-left: 110px;
-  margin-right: 110px;
+  text-align: center;
 }
 .blog-element-title:hover{
   text-decoration: underline;
@@ -238,14 +237,11 @@ body{
 .latest-blog-section{
   width: 600px;
   height: 475px;
-  /*border: 1px;
-  border-style: solid;
-  margin-left: 20px;*/
   display: inline-block;
 }
 .latest-blog-image{
-  height: 400px;
-  width: 300px;
+  height: 325px;
+  width: 225px;
   margin-top: 15px;
   margin-bottom: 0px;
   margin-right: 0px;
@@ -266,13 +262,9 @@ body{
   font-size: 17px;
   height: 300px;
   width: 200px;
-  /*border: 1px;
-  border-style: solid;*/
 }
 .latest-blog-words{
   float: right;
-/*  border: 1px;
-  border-style: solid;*/
   margin-top: 50px;
   margin-right: 40px;
 }
@@ -280,13 +272,12 @@ body{
   float: right;
   width: 300px;
   height: auto;
-  /*border: 1px;
-  border-style: solid;*/
   margin-right: 35px;
   margin-top: 30px;
 }
 .prev-blog-button{
   display: inline-block;
+  vertical-align: top;
 }
 .prev-blog-button:hover{
   cursor: pointer;
@@ -321,8 +312,6 @@ body{
   margin-top: 15px;
 }
 .about-us-bio{
-  /*text-align: justify;
-  text-justify: inter-word;*/
   text-align: left;
   margin-left: 20px;
   margin-right: 20px;
