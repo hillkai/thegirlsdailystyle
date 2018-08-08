@@ -2,8 +2,10 @@ var fs = require('fs');
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
+var bodyParser = require('body-parser');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+app.use(bodyParser.json());
 
 //function takes pathway of file to be read
 //this function takes a json or txt file and everytime is finds a * it puts the temp string and puts it into an array
@@ -125,7 +127,10 @@ app.get('/navblog', function(req, res){
     NavBlogInfo: navBlogObj
   });
 });
-app.get('/blog', function(req, res){
+app.post('/navblog/:blogTitle', function(req, res, next){
+
+});
+/*app.get('/blog', function(req, res){
   var tempDataArr = readBlogJsonFile("information/blogwriting.json");
   var blogPostObj = makeBlogPostObj(tempDataArr);
   tempDataArr = readBlogJsonFile("information/blogcomment.json");
@@ -135,7 +140,7 @@ app.get('/blog', function(req, res){
     blogInfo: blogPostObj,
     commentInfo: commentPostObj
   });
-});
+});*/
 app.use(express.static('public'));
 app.get('*', function(req, res){
   res.status(404).render('404', {
