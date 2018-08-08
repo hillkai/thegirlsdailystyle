@@ -5,37 +5,27 @@ var exphbs = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-function getDataFromFileToStringArr(fileToBeRead){
-  //Read in Items Json file
-  var data = fs.readFileSync(fileToBeRead);
+//function takes pathway of file to be read
+//this function takes a json or txt file and everytime is finds a * it puts the temp string and puts it into an array
+//the function returns an array of strings
+function readJsonFile(filePathWay){
+  var data = fs.readFileSync(filePathWay);
   data = String(data);
-  data = data.replace(/\r/g, "");
-  //Put first word from file in array of strings to be added to Item object
-  var stringToAddToObj = get_information(data, 0);
-  var arrOfObjContent = [];
-  arrOfObjContent.push(stringToAddToObj);
-  //add the rest of the words to the array of strings
-  for(var i=stringToAddToObj.length-1; i<data.length-1; i++){
-    if(data[i] == '\n'){
+  data = data.replace(/\r\n/g, "");
+  var tempStringArr = [];
+  var tempString = "";
+  for(var i=0; i<data.length; i++){
+    while(data[i] !== '*'){
+      tempString += data[i];
       i++;
-      stringToAddToObj = get_information(data, i);
-      arrOfObjContent.push(stringToAddToObj);
-      i += stringToAddToObj.length-1;
     }
+    tempStringArr.push(tempString);
+    tempString = "";
   }
-  return arrOfObjContent;
+  return tempStringArr;
 }
-function get_information(stringToParse, startPointInString){
-  var stringToReturn = "";
-  var counter = startPointInString;
-  while(stringToParse[counter] != '\n'){
-    stringToReturn += stringToParse[counter];
-    counter++;
-  }
-  return stringToReturn;
-}
-//take the array of strings of the item information and put them into the array
-//of objects that will be used in my middleware function
+//these functions parse an array of strings and put them in objects.
+//the objects are the same as the ones that need to be used in the handlebars.
 function createItemObj(arrOfItemObjContent){
   var itemObj = [];
   for(var i=0; i<arrOfItemObjContent.length; i++){
@@ -63,6 +53,28 @@ function createNavBlogObj(arrOfNavContent){
     navBlogObj.push(singleNavObj);
   }
   return navBlogObj;
+}
+function makeBlogPostObj(tempStringArr){
+  var blogPostObj = [];
+  for(var i=0; i<tempStringArr.length; i++){
+    var singleObj = {blogText: "", blogImagePath: ""};
+    singleObj.blogText = tempStringArr[i];
+    i++;
+    singleObj.blogImagePath = tempStringArr[i];
+    blogPostObj.push(singleObj);
+  }
+  return blogPostObj;
+}
+function makeCommentObj(tempStringArr){
+  var commentObj = [];
+  for(var i=0; i<tempStringArr.length; i++){
+    var singleObj = {commentAuthor: "", commentContent: ""};
+    singleObj.commentAuthor = tempStringArr[i];
+    i++;
+    singleObj.commentContent = tempStringArr[i];
+    commentObj.push(singleObj);
+  }
+  return commentObj;
 }
 //this is a middleware function. It uses HTTP GET method. It returns whatever our fuction says to when a user wants to go to that specific place.
 //they are also known as routes
@@ -92,36 +104,36 @@ app.get('/home', function(req, res){
     BlogButton: HomeObj
   });
 });
-
 app.get('/aboutus', function(req, res){
   res.status(200).render('aboutus', {
     PageTitle: "ABOUT US"
   });
 });
-
 app.get('/faveitems', function(req, res){
-  var arrOfItemObjContent = getDataFromFileToStringArr("information/iteminformation.json");
-  var itemObj = createItemObj(arrOfItemObjContent);
+  var tempDataArr = readJsonFile("information/iteminformation.json");
+  var itemObj = createItemObj(tempDataArr);
   res.status(200).render('items',{
     PageTitle: "FAVE ITEMS",
     ItemsInfo: itemObj
   });
 });
-
-
 app.get('/navblog', function(req, res){
-  var arrOfNavContent = getDataFromFileToStringArr("information/navblog.json");
-  var navBlogObj = createNavBlogObj(arrOfNavContent);
+  var tempDataArr = readJsonFile("information/navblog.json");
+  var navBlogObj = createNavBlogObj(tempDataArr);
   res.status(200).render('navblog', {
     PageTitle: "ALL BLOG POSTS",
     NavBlogInfo: navBlogObj
   });
 });
-
 app.get('/blog', function(req, res){
+  var tempDataArr = readBlogJsonFile("information/blogwriting.json");
+  var blogPostObj = makeBlogPostObj(tempDataArr);
+  tempDataArr = readBlogJsonFile("information/blogcomment.json");
+  var commentPostObj = makeCommentObj(tempDataArr);
   res.status(200).render('blog', {
     PageTitle: "BLOG",
-  //  BlogInfo: //Blog
+    blogInfo: blogPostObj,
+    commentInfo: commentPostObj
   });
 });
 

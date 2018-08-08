@@ -1,13 +1,13 @@
 <main class="blog-container">
-  {{#each BlogInfo}}
+  <h1 class="blog-title">{{BlogTitle}}</h1>
+  {{#each blogInfo}}
     {{> blogpost this}}
   {{/each}}
     <div class="all-comment-stuff">
       <div class="blog-comments">
-        <div class="comment">
-          <p class="comment-author">Bob</p>
-          <p class="comment-content">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</p>
-        </div>
+        {{#each commentInfo}}
+          {{> blogcomment this}}
+        {{/each}}
       </div>
       <div class="leave-a-comment">
         <h3 class="leave-a-comment-title">Leave a Comment!</h3>
