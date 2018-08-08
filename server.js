@@ -1,4 +1,4 @@
-var fs = require('fs'); //this is for reading files and will be helpful later
+var fs = require('fs');
 var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
@@ -136,7 +136,6 @@ app.get('/blog', function(req, res){
     commentInfo: commentPostObj
   });
 });
-
 app.use(express.static('public'));
 app.get('*', function(req, res){
   res.status(404).render('404', {

@@ -81,6 +81,7 @@ body{
   background-color: #efc6e4;
   border: none;
   cursor: pointer;
+  padding: 0px;
 }
 .spacer{
   height: 100px;
