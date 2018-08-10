@@ -155,7 +155,6 @@ body{
   text-align: center;
   background-color: #f2e1f0;
   box-shadow: 2px 2px 20px rgba(212, 215, 219);
-  text-decoration: none;
 }
 .blog-element-picture{
   margin-top: 15px;
@@ -171,7 +170,6 @@ body{
   margin-top: 0px;
   margin-bottom: 5px;
   text-align: center;
-  color: #000000;
 }
 .blog-element-title:hover{
   text-decoration: underline;
@@ -183,7 +181,6 @@ body{
   margin-right: 5px;
   margin-top: 0px;
   margin-bottom: 0px;
-  color: #000000;
 }
 /***********little box to prob get rid of***********/
 .tempthing{

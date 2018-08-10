@@ -3,9 +3,10 @@ var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
+//var path = require('path');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
 
 //function takes pathway of file to be read
 //this function takes a json or txt file and everytime is finds a * it puts the temp string and puts it into an array
@@ -46,7 +47,9 @@ function createItemObj(arrOfItemObjContent){
 function createNavBlogObj(arrOfNavContent){
   var navBlogObj = [];
   for(var i=0; i<arrOfNavContent.length; i++){
-    var singleNavObj = {NavBlogImagePath: "", BlogTitle: "", BlogDescription: ""};
+    var singleNavObj = {BlogLink: "", NavBlogImagePath: "", BlogTitle: "", BlogDescription: ""};
+    singleNavObj.BlogLink = arrOfNavContent[i];
+    i++;
     singleNavObj.NavBlogImagePath = arrOfNavContent[i];
     i++;
     singleNavObj.BlogTitle = arrOfNavContent[i];
@@ -56,7 +59,7 @@ function createNavBlogObj(arrOfNavContent){
   }
   return navBlogObj;
 }
-function makeBlogPostObj(tempStringArr){
+function createBlogPostObj(tempStringArr){
   var blogPostObj = [];
   for(var i=0; i<tempStringArr.length; i++){
     var singleObj = {blogText: "", blogImagePath: ""};
@@ -67,7 +70,7 @@ function makeBlogPostObj(tempStringArr){
   }
   return blogPostObj;
 }
-function makeCommentObj(tempStringArr){
+function createCommentObj(tempStringArr){
   var commentObj = [];
   for(var i=0; i<tempStringArr.length; i++){
     var singleObj = {commentAuthor: "", commentContent: ""};
@@ -127,20 +130,23 @@ app.get('/navblog', function(req, res){
     NavBlogInfo: navBlogObj
   });
 });
-app.post('/navblog/:blogTitle', function(req, res, next){
-
+app.get('/navblog/:blogTitle', function(req, res, next){
+    var filePathWay = "information/blogposts/" + req.params.blogTitle + ".json";
+    var tempDataArr = readJsonFile(filePathWay);
+    var blogPostObj = createBlogPostObj(tempDataArr);
+    tempDataArr = readJsonFile("information/blogcomment.json");
+    var commentPostObj = createCommentObj(tempDataArr);
+    if(commentPostObj){
+      res.status(200).render('blog', {
+        PageTitle: req.params.blogTitle,
+        blogInfo: blogPostObj,
+        commentInfo: commentPostObj
+      });
+    }
+    else{
+      next();
+    }
 });
-/*app.get('/blog', function(req, res){
-  var tempDataArr = readBlogJsonFile("information/blogwriting.json");
-  var blogPostObj = makeBlogPostObj(tempDataArr);
-  tempDataArr = readBlogJsonFile("information/blogcomment.json");
-  var commentPostObj = makeCommentObj(tempDataArr);
-  res.status(200).render('blog', {
-    PageTitle: "BLOG",
-    blogInfo: blogPostObj,
-    commentInfo: commentPostObj
-  });
-});*/
 app.use(express.static('public'));
 app.get('*', function(req, res){
   res.status(404).render('404', {
