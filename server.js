@@ -84,18 +84,19 @@ function createCommentObj(tempStringArr){
 //this is a middleware function. It uses HTTP GET method. It returns whatever our fuction says to when a user wants to go to that specific place.
 //they are also known as routes
 HomeObj = [
-  {PrevBlogTitle: "Start of Freshman year"},
-  {PrevBlogTitle: "Winter Time"},
-  {PrevBlogTitle: "Disney Best Day"},
-  {PrevBlogTitle: "Beach Beach Beach"},
-  {PrevBlogTitle: "Hawaii Days"},
-  {PrevBlogTitle: "Good Nights"}
+  {PrevBlogTitle: "Start of Freshman year", PrevBlogLink: "/navblog/start-of-freshman-year"},
+  {PrevBlogTitle: "Winter Time", PrevBlogLink: "/navblog/winter-time"},
+  {PrevBlogTitle: "Disney Best Day", PrevBlogLink: "/navblog/disney-best-day"},
+  {PrevBlogTitle: "Beach Beach Beach", PrevBlogLink: "/navblog/beach-beach-beach"},
+  {PrevBlogTitle: "Hawaii Days", PrevBlogLink: "/navblog/hawaii-days"},
+  {PrevBlogTitle: "Good Nights", PrevBlogLink: "/navblog/good-nights"}
 ];
 app.get('/', function(req, res){
   res.status(200).render('home', {
     PageTitle: "HOME",
     LatestBlogTitle: "The Best Summer Day",
     LatestBlogDescription: "I love summertime. It can be so nic to go outside and feel the sun. It is the best. I love loe lovel love love it.",
+    LatestBlogLink: "/navblog/the-best-summer-day",
     LatestBlogPic: "/photos/BLIK9384.jpg",
     BlogButton: HomeObj
   });
@@ -105,6 +106,7 @@ app.get('/home', function(req, res){
     PageTitle: "HOME",
     LatestBlogTitle: "The Best Summer Day",
     LatestBlogDescription: "I love summertime. It can be so nic to go outside and feel the sun. It is the best. I love loe lovel love love it.",
+    LatestBlogLink: "/navblog/the-best-summer-day",
     LatestBlogPic: "/photos/BLIK9384.jpg",
     BlogButton: HomeObj
   });
@@ -134,18 +136,14 @@ app.get('/navblog/:blogTitle', function(req, res, next){
     var filePathWay = "information/blogposts/" + req.params.blogTitle + ".json";
     var tempDataArr = readJsonFile(filePathWay);
     var blogPostObj = createBlogPostObj(tempDataArr);
-    tempDataArr = readJsonFile("information/blogcomment.json");
+    var commentPathWay = "information/blogposts/comments/" + req.params.blogTitle + ".json";
+    tempDataArr = readJsonFile(commentPathWay);
     var commentPostObj = createCommentObj(tempDataArr);
-    if(commentPostObj){
-      res.status(200).render('blog', {
-        PageTitle: req.params.blogTitle,
-        blogInfo: blogPostObj,
-        commentInfo: commentPostObj
-      });
-    }
-    else{
-      next();
-    }
+    res.status(200).render('blog', {
+      PageTitle: req.params.blogTitle,
+      blogInfo: blogPostObj,
+      commentInfo: commentPostObj
+    });
 });
 app.use(express.static('public'));
 app.get('*', function(req, res){
