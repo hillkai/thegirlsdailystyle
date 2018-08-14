@@ -4,6 +4,8 @@
   "description": "A fashion and lifestyle blog",
   "main": "server.js",
   "scripts": {
+    "build": "handlebars views/partials/blogcomment.handlebars -f public/blogcommentTemplate.js",
+    "prestart": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
