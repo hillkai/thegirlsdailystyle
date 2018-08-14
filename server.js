@@ -3,10 +3,11 @@ var express = require('express');
 var app = express();
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
+var os = require('os');
 //var path = require('path');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 //function takes pathway of file to be read
 //this function takes a json or txt file and everytime is finds a * it puts the temp string and puts it into an array
@@ -144,6 +145,23 @@ app.get('/navblog/:blogTitle', function(req, res, next){
       blogInfo: blogPostObj,
       commentInfo: commentPostObj
     });
+});
+app.post('/navblog/:blogTitle/addComment', function(req,res,next){
+  if(req.body && req.body.commentContent && req.body.commentAuthor){
+    var stringToAdd = req.body.commentAuthor + os.EOL + "*" + os.EOL + req.body.commentContent + os.EOL + "*" + os.EOL;
+    var commentPathWay = "information/blogposts/comments/" + req.params.blogTitle + ".json";
+    fs.appendFile(commentPathWay, stringToAdd, function(err){
+      if(err){
+        res.status(500).send("There was an error uploading your comment");
+      }
+      else{
+        res.status(200).end();
+      }
+    });
+  }
+  else{
+    res.status(400).send("Request to this path must contain a JSON body with Comment Content and author");
+  }
 });
 app.use(express.static('public'));
 app.get('*', function(req, res){
