@@ -1,6 +1,10 @@
 {
   "name": "thegirlsdailystyle",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.11.3",
+    "npm": "5.6.0"
+  },
   "description": "A fashion and lifestyle blog",
   "main": "server.js",
   "scripts": {
