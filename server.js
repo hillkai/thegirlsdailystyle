@@ -170,6 +170,6 @@ app.get('*', function(req, res){
   });
 });
 //this is a callback function to let us know the server has successfully started
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
   console.log("== Server is listening to port 3000");
 });
