@@ -98,7 +98,7 @@ app.get('/', function(req, res){
     LatestBlogTitle: "The Best Summer Day",
     LatestBlogDescription: "I love summertime. It can be so nic to go outside and feel the sun. It is the best. I love loe lovel love love it.",
     LatestBlogLink: "/navblog/the-best-summer-day",
-    LatestBlogPic: "public/photos/BLIK9384.jpg",
+    LatestBlogPic: "public/photos/BLIK9384.JPG",
     BlogButton: HomeObj
   });
 });
